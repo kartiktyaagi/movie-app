@@ -1,0 +1,56 @@
+.header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    box-shadow: 0 3px 6px 0 #555;
+    width: 100%;
+    overflow-x: hidden; /* Added to prevent overflow on x-axis */
+}
+
+.headerIcon {
+    width: 48px;
+    height: 48px;
+    margin: 10px;
+}
+
+.searchBox {
+    display: flex;
+    padding: 10px 10px;
+    border-radius: 6px;
+    margin-right: 20px; /* Adjusted margin */
+    width: 300px; /* Adjusted width */
+    background-color: white;
+}
+
+.searchInput {
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-left: 15px;
+}
+
+.headerTitle {
+    color: white;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.favContainer {
+    display: flex;
+    align-items: center;
+}
+
+.favIcon {
+    margin: 0 10px;
+    text-decoration: none;
+    color: red;
+    font-size: 20px;
+}

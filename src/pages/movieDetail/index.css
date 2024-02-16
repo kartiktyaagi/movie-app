@@ -1,0 +1,49 @@
+.movieDetails {
+    align-items: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 425px) {
+    .movieDetails {
+        flex-wrap: wrap;
+    }
+}
+
+.detailLeft {
+    margin-right: 20px;
+}
+
+.poster {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.86) 0px 22px 40px 6px;
+}
+
+.detailRight {
+    color: black;
+    display: flex;
+    margin: 20px;
+    flex-direction: column;
+    height: 350px;
+    justify-content: space-between;
+}
+.voteCount {
+    margin-left: 1rem;
+}
+
+.detailRightBottom {
+    color: black;
+    margin: 20px 0;
+    flex: 0.8;
+}
+
+.plotText {
+    font-size: 30px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    display: flex;
+    position: relative;
+    align-items: center;
+}
