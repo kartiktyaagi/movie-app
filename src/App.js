@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './components/header';
 import Card from './components/card';
-import MovieDetail from './pages/movieDetail'
+import MovieDetail from './components/movieDetail'
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 export const API_KEY = "b5abe711";
 const API_URL = (searchString) => `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`;

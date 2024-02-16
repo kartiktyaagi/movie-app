@@ -5,7 +5,7 @@
     background-color: black;
     box-shadow: 0 3px 6px 0 #555;
     width: 100%;
-    overflow-x: hidden; /* Added to prevent overflow on x-axis */
+    overflow-x: hidden;
 }
 
 .headerIcon {
@@ -18,8 +18,8 @@
     display: flex;
     padding: 10px 10px;
     border-radius: 6px;
-    margin-right: 20px; /* Adjusted margin */
-    width: 300px; /* Adjusted width */
+    margin-right: 20px;
+    width: 200px;
     background-color: white;
 }
 
@@ -35,6 +35,13 @@
 
 .headerTitle {
     color: white;
+    font-size: 14px;
+}
+
+@media (max-width: 425px) {
+    .headerTitle {
+        display: none;
+    }
 }
 
 .logoContainer {

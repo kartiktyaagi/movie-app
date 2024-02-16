@@ -7,13 +7,10 @@ const Header = ({ onTextChange, searchQuery }) => {
 
     return (
         <div className="header">
-
             <Link className="logoContainer" to='/'>
                 <img className="headerIcon" src="https://cdn-icons-png.flaticon.com/512/2798/2798007.png" alt="Movie App Icon" />
                 <h1 className="headerTitle">Movie App</h1>
             </Link>
-
-
             <div className="favContainer">
                 {pathname === '/' &&
                     <div className="searchBox">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './index.css'
 
 
-const Card = ({ movie, toggleFavorite, isFavorite }) => {
+const Card = ({ movie, toggleFavorite, isFavorite, setSearchQuery }) => {
     const handleToggleFavorite = (e) => {
         e.preventDefault();
         toggleFavorite(movie);
@@ -11,7 +11,7 @@ const Card = ({ movie, toggleFavorite, isFavorite }) => {
     };
     const { Title, Year, imdbID, Type, Poster } = movie;
     return (
-        <Link className="linkStyle" to={`/movie/${imdbID}`}>
+        <Link onClick={() => setSearchQuery('')} className="linkStyle" to={`/movie/${imdbID}`}>
             <div className="cardContainer" >
                 <img className='coverImage' src={Poster} alt={Title} />
                 <div className="favContainer">
