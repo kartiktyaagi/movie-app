@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/header';
 import Card from './components/card';
-import MovieDetail from './components/movieDetail'
+import MovieDetail from './components/movieDetail';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useDebounce } from './utils';
 
 export const API_KEY = "b5abe711";
 const API_URL = (searchString) => `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`;
 
-function App() {
+const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [movieList, setMovieList] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,9 +25,16 @@ function App() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(API_URL(searchQuery));
+        let cachedData = localStorage.getItem(debouncedSearchQuery);
+        if (cachedData) {
+          setMovieList(JSON.parse(cachedData));
+          setLoading(false);
+          return;
+        }
+        const response = await axios.get(API_URL(debouncedSearchQuery));
         if (response.data.Response === "True") {
           setMovieList(response.data.Search || []);
+          localStorage.setItem(debouncedSearchQuery, JSON.stringify(response.data.Search || []));
           setError('');
         } else {
           setError(response.data.Error || 'Unknown error occurred.');
@@ -40,26 +49,19 @@ function App() {
       }
     };
 
-    const timeoutId = setTimeout(() => {
-      if (searchQuery.trim() !== "") {
-        fetchData();
-      } else {
-        setMovieList([]);
-      }
-    }, 500);
+    if (debouncedSearchQuery.trim() !== "") {
+      fetchData();
+    } else {
+      setMovieList([]);
+    }
+  }, [debouncedSearchQuery]);
 
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
-
-  const handleTextChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
 
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  const toggleFavorite = (movie) => {
+  const toggleFavorite = useCallback((movie) => {
     const isFavorite = favorites.some((favMovie) => favMovie.imdbID === movie.imdbID);
     if (isFavorite) {
       const updatedFavorites = favorites.filter((favMovie) => favMovie.imdbID !== movie.imdbID);
@@ -67,9 +69,9 @@ function App() {
     } else {
       setFavorites([...favorites, movie]);
     }
-  };
+  }, [favorites]);
 
-  const renderMovieList = () => {
+  const renderMovieList = useMemo(() => {
     if (loading) {
       return <h1>Loading...</h1>;
     } else if (movieList.length > 0) {
@@ -85,9 +87,9 @@ function App() {
     } else {
       return <h1>{error ? `API ERROR: ${error}` : 'No movies Searched.'}</h1>;
     }
-  };
+  }, [loading, movieList, error, favorites, toggleFavorite]);
 
-  const renderFavorites = () => {
+  const renderFavorites = useMemo(() => {
     if (favorites.length === 0) {
       return <h2>No favorite movies added yet.</h2>;
     }
@@ -100,24 +102,23 @@ function App() {
         isFavorite={true}
       />
     ));
-  };
-
+  }, [favorites, toggleFavorite]);
 
   return (
     <Router>
       <div className="App">
-        <Header onTextChange={handleTextChange} searchQuery={searchQuery} />
+        <Header onTextChange={(e) => setSearchQuery(e.target.value)} searchQuery={searchQuery} />
         <div className="movieListContainer">
           <Routes>
-            <Route path="/" element={renderMovieList()} />
+            <Route path="/" element={renderMovieList} />
             <Route path="/movie/:id" element={<MovieDetail />} />
-            <Route path="/favorites" element={renderFavorites()} />
+            <Route path="/favorites" element={renderFavorites} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>
     </Router>
   );
-}
+};
 
 export default App;

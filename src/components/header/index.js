@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 import './index.css';
 import { Link, useLocation } from "react-router-dom";
 
 const Header = ({ onTextChange, searchQuery }) => {
     const { pathname } = useLocation();
+
+    const handleInputChange = (e) => {
+        onTextChange(e);
+    }
 
     return (
         <div className="header">
@@ -14,7 +18,8 @@ const Header = ({ onTextChange, searchQuery }) => {
             <div className="favContainer">
                 {pathname === '/' &&
                     <div className="searchBox">
-                        🔍 <input onChange={onTextChange} value={searchQuery} type="text" className="searchInput" placeholder="Please Search..." />
+                        <span role="img" aria-label="search-icon">🔍</span>
+                        <input onChange={handleInputChange} value={searchQuery} type="text" className="searchInput" placeholder="Please Search..." />
                     </div>
                 }
                 <Link className="favIcon" to='/favorites'>&#10084;</Link>
