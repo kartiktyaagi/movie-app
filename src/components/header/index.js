@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaSearch } from "react-icons/fa";
 
 import './index.css';
 
@@ -20,7 +20,7 @@ const Header = ({ onTextChange, searchQuery, favorites }) => {
             <div className="favHeaderContainer">
                 {pathname === '/' &&
                     <div className="searchBox">
-                        <span role="img" aria-label="search-icon">🔍</span>
+                        <span role="img" aria-label="search-icon"><FaSearch /></span>
                         <input onChange={handleInputChange} value={searchQuery} type="text" className="searchInput" placeholder="Please Search..." />
                     </div>
                 }
