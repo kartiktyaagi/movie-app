@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ImSpinner8 } from 'react-icons/im'
 
 import { API_HEADER, API_KEY } from '../../utils';
 
@@ -32,7 +33,7 @@ const MovieDetail = () => {
     }, [id]);
 
     if (loading) {
-        return <div className="loading">Loading...</div>;
+        return <ImSpinner8 className='loadingIcon' />
     }
 
 
@@ -48,7 +49,7 @@ const MovieDetail = () => {
                     <strong>Rating:</strong> {Ratings.length > 0 ? Ratings[0].Value : 'N/A'}
                     <span className="voteCount"><strong>Votes :</strong> {imdbVotes}</span>
                 </div>
-                <p><strong>Total Duration:</strong> {Runtime} mins</p>
+                <p><strong>Total Duration:</strong> {Runtime}</p>
                 <p><strong>Released :</strong> {Released}</p>
                 <p><strong>Actors :</strong> {Actors}</p>
 

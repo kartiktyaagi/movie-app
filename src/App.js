@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { MdError } from "react-icons/md";
+import { ImSpinner8 } from 'react-icons/im'
 
 import Header from './components/header';
 import Card from './components/card';
@@ -74,7 +75,7 @@ const App = () => {
 
   const renderMovieList = useMemo(() => {
     if (loading) {
-      return <h1>Loading...</h1>;
+      return <ImSpinner8 className='loadingIcon' />
     } else if (movieList.length > 0) {
       return movieList.map((movie) => (
         <Card
@@ -93,7 +94,7 @@ const App = () => {
               <MdError className='errorIcon' /> API ERROR: {error}
             </>
           ) : (
-            'No movies searched.'
+            "Start Searching Movies"
           )}
         </h1>
       );

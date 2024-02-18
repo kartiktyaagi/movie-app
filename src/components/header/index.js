@@ -21,7 +21,7 @@ const Header = ({ onTextChange, searchQuery, favorites }) => {
                 {pathname === '/' &&
                     <div className="searchBox">
                         <span role="img" aria-label="search-icon"><FaSearch /></span>
-                        <input onChange={handleInputChange} value={searchQuery} type="text" className="searchInput" placeholder="Please Search..." />
+                        <input onChange={handleInputChange} value={searchQuery} type="text" className="searchInput" placeholder="Search Movies..." />
                     </div>
                 }
                 <Link to='/favorites' className="favLink">
