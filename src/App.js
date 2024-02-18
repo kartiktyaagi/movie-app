@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import { MdError } from "react-icons/md";
+
 import Header from './components/header';
 import Card from './components/card';
 import MovieDetail from './components/movieDetail';
-import './App.css';
-import { useDebounce } from './utils';
 
-export const API_KEY = "b5abe711";
-const API_URL = (searchString) => `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`;
+import { useDebounce, API_KEY, API_HEADER } from './utils';
+
+import './App.css';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +21,7 @@ const App = () => {
     const storedFavorites = localStorage.getItem('favorites');
     return storedFavorites ? JSON.parse(storedFavorites) : [];
   });
+  const API_URL = (searchString) => `${API_HEADER}?s=${searchString}&apikey=${API_KEY}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,7 +58,6 @@ const App = () => {
     }
   }, [debouncedSearchQuery]);
 
-
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
@@ -85,7 +86,18 @@ const App = () => {
         />
       ));
     } else {
-      return <h1>{error ? `API ERROR: ${error}` : 'No movies Searched.'}</h1>;
+      return (
+        <h1 className='errorHeading'>
+          {error ? (
+            <>
+              <MdError className='errorIcon' /> API ERROR: {error}
+            </>
+          ) : (
+            'No movies searched.'
+          )}
+        </h1>
+      );
+
     }
   }, [loading, movieList, error, favorites, toggleFavorite]);
 
@@ -93,7 +105,6 @@ const App = () => {
     if (favorites.length === 0) {
       return <h2>No favorite movies added yet.</h2>;
     }
-
     return favorites.map((movie) => (
       <Card
         key={movie.imdbID}
@@ -107,7 +118,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <Header onTextChange={(e) => setSearchQuery(e.target.value)} searchQuery={searchQuery} />
+        <Header favorites={favorites} onTextChange={(e) => setSearchQuery(e.target.value)} searchQuery={searchQuery} />
         <div className="movieListContainer">
           <Routes>
             <Route path="/" element={renderMovieList} />

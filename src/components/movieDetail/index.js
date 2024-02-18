@@ -1,32 +1,40 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+
+import { API_HEADER, API_KEY } from '../../utils';
+
 import './index.css';
-import { API_KEY } from '../../App';
 
 const MovieDetail = () => {
-    const [movieInfo, setMovieInfo] = useState(null);
+    const [movieInfo, setMovieInfo] = useState({});
+    const [loading, setLoading] = useState(false);
     const { id } = useParams();
-    const API_URL = useMemo(() => `https://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`, [id]);
+    const { Title = 'N/A', Poster, Ratings = [], imdbVotes = 'N/A', Runtime = 'N/A', Released = 'N/A', Actors = 'N/A', Plot = 'N/A' } = movieInfo || {};
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
+            if (!id) return;
+
+            const API_URL = `${API_HEADER}?i=${id}&apikey=${API_KEY}`;
             try {
+                setLoading(true);
                 const response = await axios.get(API_URL);
                 setMovieInfo(response.data);
             } catch (error) {
                 console.error('Error fetching movie details:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchMovieDetails();
-    }, [API_URL]);
+    }, [id]);
 
-    if (!movieInfo) {
+    if (loading) {
         return <div className="loading">Loading...</div>;
     }
 
-    const { Title = 'N/A', Poster, Ratings = [], imdbVotes = 'N/A', Runtime = 'N/A', Released = 'N/A', Actors = 'N/A', Plot = 'N/A' } = movieInfo;
 
     return (
         <div className="movieDetails">

@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
-import './index.css';
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
 
-const Header = ({ onTextChange, searchQuery }) => {
+import './index.css';
+
+const Header = ({ onTextChange, searchQuery, favorites }) => {
     const { pathname } = useLocation();
 
     const handleInputChange = (e) => {
@@ -15,14 +17,20 @@ const Header = ({ onTextChange, searchQuery }) => {
                 <img className="headerIcon" src="https://cdn-icons-png.flaticon.com/512/2798/2798007.png" alt="Movie App Icon" />
                 <h1 className="headerTitle">Movie App</h1>
             </Link>
-            <div className="favContainer">
+            <div className="favHeaderContainer">
                 {pathname === '/' &&
                     <div className="searchBox">
                         <span role="img" aria-label="search-icon">🔍</span>
                         <input onChange={handleInputChange} value={searchQuery} type="text" className="searchInput" placeholder="Please Search..." />
                     </div>
                 }
-                <Link className="favIcon" to='/favorites'>&#10084;</Link>
+                <Link to='/favorites' className="favLink">
+                    <div className="favIcon">
+                        <FaHeart className="heartIcon" />
+                        {favorites.length > 0 && <p className="counter">{favorites.length}</p>}
+                    </div>
+                </Link>
+
             </div>
         </div>
     );

@@ -11,7 +11,7 @@
     height: 362px;
 }
 .movieName {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
     color: black;
     margin: 15px 0;
@@ -40,14 +40,23 @@
     color: inherit;
 }
 
-.favContainer {
+.favIconContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.heartIcon {
-    font-size: 20px;
+
+.whishlist {
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+}
+.wishlistHeart {
+    margin-right: 6px;
 }
 .favorite {
     color: red;
+}
+.wishlistText {
+    margin-bottom: 3px;
 }

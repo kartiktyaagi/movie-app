@@ -9,3 +9,12 @@
     gap: 25px;
     justify-content: center;
 }
+
+.errorIcon {
+    color: red;
+    margin: 10px;
+}
+.errorHeading {
+    display: flex;
+    align-items: center;
+}
