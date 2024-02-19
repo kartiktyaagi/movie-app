@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ImSpinner8 } from 'react-icons/im'
@@ -12,6 +12,7 @@ const MovieDetail = () => {
     const [loading, setLoading] = useState(false);
     const { id } = useParams();
     const { Title = 'N/A', Poster, Ratings = [], imdbVotes = 'N/A', Runtime = 'N/A', Released = 'N/A', Actors = 'N/A', Plot = 'N/A' } = movieInfo || {};
+    const MovieApiCallRef = useRef(1);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -29,7 +30,10 @@ const MovieDetail = () => {
             }
         };
 
-        fetchMovieDetails();
+        if (MovieApiCallRef.current === 1) {
+            fetchMovieDetails();
+            MovieApiCallRef.current++
+        }
     }, [id]);
 
     if (loading) {
